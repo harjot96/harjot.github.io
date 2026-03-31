@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Harjot Singh — React Native & Mobile Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Poppins', sans-serif; background: #0f0f0f; color: #e0e0e0; }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #0f0f0f; }
+::-webkit-scrollbar-thumb { background: #f5a623; border-radius: 10px; }
+
+/* NAV */
+#navbar {
+  position: fixed; top: 0; width: 100%; z-index: 999;
+  background: rgba(15,15,15,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #1e1e1e;
+  padding: 0 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 65px;
+}
+.nav-brand {
+  font-size: 22px; font-weight: 700;
+  color: #f5a623;
+  text-decoration: none;
+  letter-spacing: 2px;
+}
+.nav-menu { display: flex; gap: 8px; list-style: none; }
+.nav-menu a {
+  color: #aaa;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+.nav-menu a:hover { color: #f5a623; background: rgba(245,166,35,0.08); }
+.hamburger { display: none; cursor: pointer; color: #f5a623; font-size: 22px; }
+
+/* HERO */
+#hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 80px 20px 40px;
+  position: relative;
+  overflow: hidden;
+  background: #0f0f0f;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(245,166,35,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(245,166,35,0.03) 0%, transparent 60%);
+}
+.hero-inner { position: relative; z-index: 2; max-width: 800px; }
+.hero-greeting {
+  font-size: 18px; font-weight: 400; color: #888;
+  margin-bottom: 12px;
+  opacity: 0; animation: fadeDown 0.8s 0.2s forwards;
+}
+.hero-name {
+  font-size: clamp(42px, 7vw, 80px);
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 16px;
+  opacity: 0; animation: fadeDown 0.8s 0.4s forwards;
+}
+.hero-name span { color: #f5a623; }
+.hero-role {
+  font-size: 18px; font-weight: 400; color: #aaa;
+  margin-bottom: 32px;
+  opacity: 0; animation: fadeDown 0.8s 0.6s forwards;
+}
+.hero-role b { color: #f5a623; font-weight: 600; }
+.hero-btns {
+  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  margin-bottom: 48px;
+  opacity: 0; animation: fadeDown 0.8s 0.8s forwards;
+}
+.btn-gold {
+  background: #f5a623; color: #0f0f0f;
+  padding: 13px 32px; border-radius: 6px;
+  font-size: 14px; font-weight: 600;
+  text-decoration: none; letter-spacing: 1px;
+  transition: opacity 0.2s;
+}
+.btn-gold:hover { opacity: 0.85; }
+.btn-outline {
+  border: 1.5px solid #f5a623; color: #f5a623;
+  padding: 13px 32px; border-radius: 6px;
+  font-size: 14px; font-weight: 500;
+  text-decoration: none; letter-spacing: 1px;
+  transition: all 0.2s;
+}
+.btn-outline:hover { background: rgba(245,166,35,0.1); }
+.hero-stats {
+  display: flex; gap: 0; justify-content: center;
+  border: 1px solid #1e1e1e;
+  border-radius: 10px;
+  overflow: hidden;
+  opacity: 0; animation: fadeDown 0.8s 1s forwards;
+  max-width: 600px; margin: 0 auto;
+}
+.stat {
+  flex: 1; padding: 20px 16px; text-align: center;
+  border-right: 1px solid #1e1e1e;
+}
+.stat:last-child { border-right: none; }
+.stat-n { font-size: 28px; font-weight: 700; color: #f5a623; }
+.stat-l { font-size: 11px; color: #666; letter-spacing: 1px; margin-top: 4px; text-transform: uppercase; }
+
+@keyframes fadeDown { from { opacity:0; transform: translateY(-20px); } to { opacity:1; transform: translateY(0); } }
+
+/* SECTION BASE */
+section { padding: 90px 60px; }
+.sec-header { text-align: center; margin-bottom: 60px; }
+.sec-tag {
+  display: inline-block;
+  font-size: 12px; font-weight: 600;
+  color: #f5a623; letter-spacing: 4px; text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.sec-title {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700;
+  color: #fff;
+}
+.sec-title span { color: #f5a623; }
+.sec-line {
+  width: 50px; height: 3px;
+  background: #f5a623;
+  margin: 16px auto 0;
+  border-radius: 2px;
+}
+
+/* ABOUT */
+#about { background: #141414; }
+.about-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; align-items: start; max-width: 1100px; margin: 0 auto; }
+.about-img-wrap {
+  position: relative;
+}
+.about-img-box {
+  width: 100%;
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, #1e1e1e, #2a2a2a);
+  border-radius: 12px;
+  border: 2px solid #f5a623;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 80px;
+  color: #f5a623;
+  overflow: hidden;
+}
+.about-badge {
+  position: absolute; bottom: -16px; right: -16px;
+  background: #f5a623; color: #0f0f0f;
+  font-size: 12px; font-weight: 700;
+  padding: 12px 20px; border-radius: 8px;
+  letter-spacing: 1px;
+  text-align: center;
+}
+.about-badge span { display: block; font-size: 22px; font-weight: 800; }
+.about-text h3 { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 16px; }
+.about-text p { font-size: 14px; color: #aaa; line-height: 1.9; margin-bottom: 20px; }
+.about-text p b { color: #f5a623; font-weight: 600; }
+.about-info { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+.info-item { display: flex; flex-direction: column; gap: 2px; }
+.info-key { font-size: 11px; color: #555; letter-spacing: 1px; text-transform: uppercase; }
+.info-val { font-size: 14px; color: #ddd; font-weight: 500; }
+.info-val.green { color: #4caf50; }
+
+/* SKILLS */
+#skills { background: #0f0f0f; }
+.skills-container { max-width: 1000px; margin: 0 auto; }
+.skills-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+.skill-group-title { font-size: 16px; font-weight: 600; color: #f5a623; margin-bottom: 24px; letter-spacing: 1px; text-transform: uppercase; }
+.skill-item { margin-bottom: 20px; }
+.skill-top { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.skill-name-txt { font-size: 14px; color: #ddd; font-weight: 500; }
+.skill-pct { font-size: 13px; color: #f5a623; font-weight: 600; }
+.bar-bg { height: 6px; background: #1e1e1e; border-radius: 10px; overflow: hidden; }
+.bar-fill {
+  height: 100%; background: linear-gradient(90deg, #f5a623, #ffcc70);
+  border-radius: 10px;
+  width: 0;
+  transition: width 1.5s ease;
+}
+
+/* EDUCATION */
+#education { background: #141414; }
+.edu-timeline { max-width: 800px; margin: 0 auto; position: relative; }
+.edu-timeline::before { content:''; position:absolute; left:20px; top:0; bottom:0; width:2px; background:#1e1e1e; }
+.edu-item { display: flex; gap: 32px; margin-bottom: 40px; position: relative; }
+.edu-dot {
+  width: 42px; height: 42px; flex-shrink: 0;
+  background: #f5a623; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: #0f0f0f;
+  position: relative; z-index: 2;
+}
+.edu-body {
+  background: #1a1a1a;
+  border: 1px solid #252525;
+  border-radius: 10px;
+  padding: 22px 24px;
+  flex: 1;
+  transition: border-color 0.3s;
+}
+.edu-body:hover { border-color: #f5a623; }
+.edu-period {
+  font-size: 12px; color: #f5a623; font-weight: 600;
+  letter-spacing: 1px; margin-bottom: 6px;
+  text-transform: uppercase;
+}
+.edu-degree { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.edu-school { font-size: 13px; color: #888; margin-bottom: 12px; }
+.edu-desc { font-size: 13px; color: #777; line-height: 1.7; }
+
+/* EXPERIENCE */
+#experience { background: #0f0f0f; }
+.exp-timeline { max-width: 800px; margin: 0 auto; position: relative; }
+.exp-timeline::before { content:''; position:absolute; left:20px; top:0; bottom:0; width:2px; background:#1e1e1e; }
+.exp-item { display: flex; gap: 32px; margin-bottom: 40px; }
+.exp-dot {
+  width: 42px; height: 42px; flex-shrink: 0;
+  background: #1e1e1e; border: 2px solid #f5a623;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: #f5a623;
+  position: relative; z-index: 2;
+}
+.exp-body {
+  background: #141414;
+  border: 1px solid #252525;
+  border-radius: 10px;
+  padding: 22px 24px;
+  flex: 1;
+  transition: border-color 0.3s;
+}
+.exp-body:hover { border-color: #f5a623; }
+.exp-period { font-size: 12px; color: #f5a623; font-weight: 600; letter-spacing: 1px; margin-bottom: 6px; text-transform: uppercase; }
+.exp-role { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.exp-company { font-size: 13px; color: #888; margin-bottom: 12px; }
+.exp-desc { font-size: 13px; color: #777; line-height: 1.7; margin-bottom: 14px; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag {
+  font-size: 11px; color: #f5a623;
+  background: rgba(245,166,35,0.1);
+  border: 1px solid rgba(245,166,35,0.25);
+  padding: 4px 12px; border-radius: 100px;
+  font-weight: 500;
+}
+
+/* PORTFOLIO */
+#portfolio { background: #141414; }
+.portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto; }
+.port-card {
+  background: #1a1a1a;
+  border: 1px solid #252525;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s;
+}
+.port-card:hover { transform: translateY(-6px); border-color: #f5a623; }
+.port-img {
+  height: 180px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 52px;
+}
+.p1 { background: linear-gradient(135deg, #1a237e, #283593); }
+.p2 { background: linear-gradient(135deg, #1b5e20, #2e7d32); }
+.p3 { background: linear-gradient(135deg, #880e4f, #ad1457); }
+.p4 { background: linear-gradient(135deg, #e65100, #f57c00); }
+.p5 { background: linear-gradient(135deg, #006064, #00838f); }
+.port-info { padding: 18px; }
+.port-title { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+.port-desc { font-size: 12px; color: #777; line-height: 1.7; }
+.port-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.port-tag { font-size: 10px; color: #888; background: #252525; padding: 3px 10px; border-radius: 100px; }
+
+/* PROFILES */
+#profiles { background: #0f0f0f; }
+.profiles-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; max-width: 700px; margin: 0 auto; }
+.profile-card {
+  display: flex; align-items: center; gap: 14px;
+  background: #141414;
+  border: 1px solid #252525;
+  border-radius: 10px;
+  padding: 18px 24px;
+  text-decoration: none;
+  transition: all 0.3s;
+  min-width: 180px;
+}
+.profile-card:hover { border-color: #f5a623; transform: translateY(-3px); }
+.profile-icon { font-size: 26px; }
+.profile-name { font-size: 14px; font-weight: 600; color: #fff; }
+.profile-handle { font-size: 11px; color: #666; margin-top: 2px; }
+
+/* CONTACT */
+#contact { background: #141414; }
+.contact-wrap { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; }
+.contact-left h3 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+.contact-left p { font-size: 14px; color: #888; line-height: 1.8; margin-bottom: 32px; }
+.contact-items { display: flex; flex-direction: column; gap: 16px; }
+.c-item {
+  display: flex; align-items: center; gap: 14px;
+  background: #1a1a1a; border: 1px solid #252525;
+  border-radius: 8px; padding: 14px 18px;
+  text-decoration: none; transition: border-color 0.2s;
+}
+.c-item:hover { border-color: #f5a623; }
+.c-icon {
+  width: 38px; height: 38px; flex-shrink: 0;
+  background: rgba(245,166,35,0.12);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: #f5a623;
+}
+.c-label { font-size: 10px; color: #555; letter-spacing: 1px; text-transform: uppercase; }
+.c-val { font-size: 13px; color: #ddd; margin-top: 1px; }
+.contact-form { display: flex; flex-direction: column; gap: 16px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.f-group { display: flex; flex-direction: column; gap: 6px; }
+.f-label { font-size: 11px; color: #666; letter-spacing: 1px; text-transform: uppercase; }
+.f-input, .f-textarea {
+  background: #1a1a1a; border: 1px solid #252525;
+  border-radius: 8px; padding: 13px 16px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px; color: #ddd;
+  outline: none; transition: border-color 0.2s;
+}
+.f-input:focus, .f-textarea:focus { border-color: #f5a623; }
+.f-textarea { height: 120px; resize: none; }
+.f-btn {
+  background: #f5a623; color: #0f0f0f;
+  border: none; border-radius: 8px;
+  padding: 14px; font-family: 'Poppins', sans-serif;
+  font-size: 14px; font-weight: 600;
+  cursor: pointer; letter-spacing: 1px;
+  transition: opacity 0.2s;
+}
+.f-btn:hover { opacity: 0.85; }
+
+/* FOOTER */
+footer {
+  background: #0a0a0a;
+  border-top: 1px solid #1e1e1e;
+  padding: 28px 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.footer-brand { font-size: 18px; font-weight: 700; color: #f5a623; letter-spacing: 2px; }
+.footer-copy { font-size: 12px; color: #555; }
+.footer-socials { display: flex; gap: 12px; }
+.footer-socials a {
+  width: 36px; height: 36px; border-radius: 6px;
+  background: #141414; border: 1px solid #252525;
+  display: flex; align-items: center; justify-content: center;
+  color: #888; font-size: 14px; text-decoration: none;
+  transition: all 0.2s;
+}
+.footer-socials a:hover { color: #f5a623; border-color: #f5a623; }
+
+/* MOBILE */
+@media(max-width:900px) {
+  section { padding: 70px 24px; }
+  #navbar { padding: 0 24px; }
+  .nav-menu { display: none; }
+  .hamburger { display: block; }
+  .about-grid, .contact-wrap { grid-template-columns: 1fr; gap: 40px; }
+  .skills-cols { grid-template-columns: 1fr; }
+  .hero-stats { flex-direction: column; gap: 0; }
+  .stat { border-right: none; border-bottom: 1px solid #1e1e1e; }
+  .form-row { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 16px; text-align: center; }
+  .about-badge { right: 0; bottom: -10px; }
+}
+
+/* FADE IN */
+.reveal { opacity:0; transform:translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.show { opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#hero" class="nav-brand">H · S</a>
+  <ul class="nav-menu">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#profiles">Profiles</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="hamburger"><i class="fas fa-bars"></i></div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <p class="hero-greeting">hi, i am</p>
+    <h1 class="hero-name">Harjot <span>Singh</span></h1>
+    <p class="hero-role"><b>React Native</b> &amp; <b>Ionic/Capacitor</b> Mobile Developer</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-gold">Hire Me</a>
+      <a href="#portfolio" class="btn-outline">View Work</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-n">4+</div><div class="stat-l">Years Exp</div></div>
+      <div class="stat"><div class="stat-n">20+</div><div class="stat-l">Apps Shipped</div></div>
+      <div class="stat"><div class="stat-n">iOS &amp; Android</div><div class="stat-l">Both Stores</div></div>
+      <div class="stat"><div class="stat-n">Remote</div><div class="stat-l">Worldwide</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-header reveal">
+    <div class="sec-tag">Get to know me</div>
+    <h2 class="sec-title">About <span>Me</span></h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="about-grid reveal">
+    <div class="about-img-wrap">
+      <div class="about-img-box">👨‍💻</div>
+      <div class="about-badge"><span>4+</span>Years<br/>Experience</div>
+    </div>
+    <div class="about-text">
+      <h3>React Native & Ionic/Capacitor Developer</h3>
+      <p>
+        I am a professional <b>React Native, Ionic/Capacitor &amp; Angular</b> developer with
+        <b>4+ years</b> of hands-on experience building production-grade mobile apps for
+        both <b>iOS and Android</b>.
+      </p>
+      <p>
+        My expertise covers the full development lifecycle — from UI to backend APIs,
+        push notifications (APNs/FCM), payment integrations, store deployments via
+        <b>TestFlight &amp; Google Play Console</b>, and codebase audits using <b>Claude Code</b>.
+        I also work with <b>React, Next.js, Node.js</b> and Python/AI integrations.
+      </p>
+      <p>
+        Based in <b>Ludhiana, Punjab</b> — available for freelance worldwide.
+        I communicate clearly, deliver on time, and explain everything I do.
+      </p>
+      <div class="about-info">
+        <div class="info-item"><span class="info-key">Name</span><span class="info-val">Harjot Singh</span></div>
+        <div class="info-item"><span class="info-key">Location</span><span class="info-val">Ludhiana, Punjab</span></div>
+        <div class="info-item"><span class="info-key">Timezone</span><span class="info-val">IST — UTC+5:30</span></div>
+        <div class="info-item"><span class="info-key">Email</span><span class="info-val">your@email.com</span></div>
+        <div class="info-item"><span class="info-key">Availability</span><span class="info-val green">✓ Open to Work</span></div>
+        <div class="info-item"><span class="info-key">Work Type</span><span class="info-val">Remote / Freelance</span></div>
+      </div>
+      <div style="display:flex;gap:12px;">
+        <a href="#contact" class="btn-gold" style="font-size:13px;padding:11px 24px;">Hire Me</a>
+        <a href="#" class="btn-outline" style="font-size:13px;padding:11px 24px;">Download CV</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="sec-header reveal">
+    <div class="sec-tag">My Expertise</div>
+    <h2 class="sec-title">Technical <span>Skills</span></h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="skills-container reveal">
+    <div class="skills-cols">
+      <div>
+        <div class="skill-group-title">Mobile & Frontend</div>
+        <div class="skill-item">
+          <div class="skill-top"><span class="skill-name-txt">React Native</span><span class="skill-pct">92%</span></div>
+          <div class="bar-bg"><div class="bar-fill" data-w="92%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-top"><span class="skill-name-txt">Ionic / Capacitor</span><span class="skill-pct">90%</span></div>
+          <div class="bar-bg"><div class="bar-fill" data-w="90%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-top"><span class="skill-name-txt">Angular</span><span class="skill-pct">85%</span></div>
+          <div class="bar-bg"><div class="bar-fill" data-w="85%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-top"><span class="skill-name-txt">React / Next.js</span><span class="skill-pct">83%</span></div>
+          <div class="bar-bg"><div class="bar-fill" data-w="83%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-top"><span class="skill-name-txt">JavaScript / TypeScript</span><span class="skill-pct">88%</span></div>
+          <div class="bar-bg"><div class="bar-fill" data-w="88%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-top"><span class="skill-name-txt">HTML / CSS</span><span class="skill-pct">85%</span></div>
+          <div class="bar-bg"><div class="bar-fill" data-w="85%"></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-title">Backend & Tools</div>
+        <div class="skill-item">
+          <div class="skill-top"><span class="skill-name-txt">Node.js</span><span class="skill-pct">78%</span></div>
+          <div class="bar-bg"><div class="bar-fill" data-w="78%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-top"><span class="skill-name-txt">Firebase / Crashlytics</span><span class="skill-pct">85%</span></div>
+          <div class="bar-bg"><div class="bar-fill" data-w="85%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-top"><span class="skill-name-txt">REST APIs</span><span class="skill-pct">90%</span></div>
+          <div class="bar-bg"><div class="bar-fill" data-w="90%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-top"><span class="skill-name-txt">TestFlight / Play Console</span><span class="skill-pct">88%</span></div>
+          <div class="bar-bg"><div class="bar-fill" data-w="88%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-top"><span class="skill-name-txt">Python / AI APIs</span><span class="skill-pct">72%</span></div>
+          <div class="bar-bg"><div class="bar-fill" data-w="72%"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-top"><span class="skill-name-txt">Claude Code / Audit</span><span class="skill-pct">80%</span></div>
+          <div class="bar-bg"><div class="bar-fill" data-w="80%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="sec-header reveal">
+    <div class="sec-tag">My Background</div>
+    <h2 class="sec-title">Edu<span>cation</span></h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="edu-timeline reveal">
+    <div class="edu-item">
+      <div class="edu-dot"><i class="fas fa-graduation-cap"></i></div>
+      <div class="edu-body">
+        <div class="edu-period">2019 — 2022</div>
+        <div class="edu-degree">Bachelor of Technology — Computer Science</div>
+        <div class="edu-school">Punjab Technical University • Ludhiana, Punjab, India</div>
+        <div class="edu-desc">Focused on software development, data structures, algorithms and mobile computing. Built a strong foundation in programming and system design.</div>
+      </div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-dot"><i class="fas fa-certificate"></i></div>
+      <div class="edu-body">
+        <div class="edu-period">2020</div>
+        <div class="edu-degree">React Native & Mobile App Development Course</div>
+        <div class="edu-school">Online Certification • Self-Learning</div>
+        <div class="edu-desc">Completed hands-on training in React Native, Expo, and mobile app development for iOS and Android. Focused on real-world app building and deployment.</div>
+      </div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-dot"><i class="fas fa-laptop-code"></i></div>
+      <div class="edu-body">
+        <div class="edu-period">2016 — 2019</div>
+        <div class="edu-degree">Diploma in Computer Engineering</div>
+        <div class="edu-school">Punjab State Board • India</div>
+        <div class="edu-desc">3-year diploma covering computer systems, networking, databases and programming fundamentals. First introduction to software development.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="sec-header reveal">
+    <div class="sec-tag">My Journey</div>
+    <h2 class="sec-title">Work <span>Experience</span></h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="exp-timeline reveal">
+    <div class="exp-item">
+      <div class="exp-dot"><i class="fas fa-briefcase"></i></div>
+      <div class="exp-body">
+        <div class="exp-period">2024 — Present</div>
+        <div class="exp-role">Freelance Mobile Developer</div>
+        <div class="exp-company">Independent — Remote, Worldwide (Upwork)</div>
+        <div class="exp-desc">Building and shipping React Native & Ionic/Capacitor apps for global clients. Specialising in bug fixing, codebase audits with Claude Code, TestFlight/Play Console deployments, push notifications, and payment integrations.</div>
+        <div class="tags">
+          <span class="tag">React Native</span><span class="tag">Ionic</span><span class="tag">Expo</span><span class="tag">Claude Code</span><span class="tag">TestFlight</span>
+        </div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-dot"><i class="fas fa-mobile-alt"></i></div>
+      <div class="exp-body">
+        <div class="exp-period">2022 — 2024</div>
+        <div class="exp-role">React Native Developer</div>
+        <div class="exp-company">Mobile App Development — Ludhiana, Punjab</div>
+        <div class="exp-desc">Developed production React Native applications for iOS and Android. Integrated push notifications (APNs/FCM), payment gateways, OTP authentication, and real-time features. Deployed multiple apps to both stores.</div>
+        <div class="tags">
+          <span class="tag">React Native</span><span class="tag">Firebase</span><span class="tag">Crashlytics</span><span class="tag">Payments</span><span class="tag">OTP Auth</span>
+        </div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-dot"><i class="fas fa-code"></i></div>
+      <div class="exp-body">
+        <div class="exp-period">2020 — 2022</div>
+        <div class="exp-role">Mobile & Frontend Developer</div>
+        <div class="exp-company">App Development — India</div>
+        <div class="exp-desc">Started with Ionic/Angular hybrid apps for small businesses, then moved into React Native. Built UIs, integrated REST APIs, and handled app debugging and performance optimisation.</div>
+        <div class="tags">
+          <span class="tag">Ionic</span><span class="tag">Angular</span><span class="tag">Capacitor</span><span class="tag">REST APIs</span><span class="tag">JavaScript</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="sec-header reveal">
+    <div class="sec-tag">My Work</div>
+    <h2 class="sec-title">Port<span>folio</span></h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="portfolio-grid reveal">
+    <div class="port-card">
+      <div class="port-img p1">📱</div>
+      <div class="port-info">
+        <div class="port-title">Service Marketplace App</div>
+        <div class="port-desc">Full stack mobile app with booking, payments, push notifications and real-time order tracking. Deployed to both stores.</div>
+        <div class="port-stack"><span class="port-tag">React Native</span><span class="port-tag">Node.js</span><span class="port-tag">Firebase</span></div>
+      </div>
+    </div>
+    <div class="port-card">
+      <div class="port-img p2">🏥</div>
+      <div class="port-info">
+        <div class="port-title">Hospital Website — Kharar</div>
+        <div class="port-desc">Professional website for a local hospital with appointment booking, doctor profiles, and Google SEO setup.</div>
+        <div class="port-stack"><span class="port-tag">Next.js</span><span class="port-tag">SEO</span><span class="port-tag">Mobile First</span></div>
+      </div>
+    </div>
+    <div class="port-card">
+      <div class="port-img p3">🏨</div>
+      <div class="port-info">
+        <div class="port-title">Hotel Florida Website</div>
+        <div class="port-desc">Clean, mobile-friendly hotel website with room booking UI, Google Maps and direct contact — built as a pitch demo.</div>
+        <div class="port-stack"><span class="port-tag">HTML/CSS</span><span class="port-tag">JavaScript</span><span class="port-tag">Responsive</span></div>
+      </div>
+    </div>
+    <div class="port-card">
+      <div class="port-img p4">🔔</div>
+      <div class="port-info">
+        <div class="port-title">Ionic / Capacitor Audit & Fix</div>
+        <div class="port-desc">Full codebase audit using Claude Code, bug fixes, push notification setup, and production deployment to App Store & Play Store.</div>
+        <div class="port-stack"><span class="port-tag">Ionic</span><span class="port-tag">Capacitor</span><span class="port-tag">Claude Code</span></div>
+      </div>
+    </div>
+    <div class="port-card">
+      <div class="port-img p5">🤖</div>
+      <div class="port-info">
+        <div class="port-title">AI Tool Integration</div>
+        <div class="port-desc">Micro SaaS tools built with Python and Anthropic/OpenAI APIs — chatbots, AI features and automation for small businesses.</div>
+        <div class="port-stack"><span class="port-tag">Python</span><span class="port-tag">Anthropic API</span><span class="port-tag">Next.js</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROFILES -->
+<section id="profiles">
+  <div class="sec-header reveal">
+    <div class="sec-tag">Find Me Online</div>
+    <h2 class="sec-title">My <span>Profiles</span></h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="profiles-grid reveal">
+    <a href="#" class="profile-card">
+      <div class="profile-icon"><i class="fab fa-linkedin" style="color:#0077b5;font-size:28px;"></i></div>
+      <div><div class="profile-name">LinkedIn</div><div class="profile-handle">in/harjot-singh</div></div>
+    </a>
+    <a href="#" class="profile-card">
+      <div class="profile-icon"><i class="fab fa-github" style="color:#fff;font-size:28px;"></i></div>
+      <div><div class="profile-name">GitHub</div><div class="profile-handle">github.com/harjot</div></div>
+    </a>
+    <a href="#" class="profile-card">
+      <div class="profile-icon"><i class="fab fa-upwork" style="color:#6fda44;font-size:26px;"></i></div>
+      <div><div class="profile-name">Upwork</div><div class="profile-handle">upwork.com/fl/harjot</div></div>
+    </a>
+    <a href="#" class="profile-card">
+      <div class="profile-icon"><i class="fab fa-twitter" style="color:#1da1f2;font-size:26px;"></i></div>
+      <div><div class="profile-name">Twitter / X</div><div class="profile-handle">@harjot_dev</div></div>
+    </a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sec-header reveal">
+    <div class="sec-tag">Let's Talk</div>
+    <h2 class="sec-title">Contact <span>Me</span></h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="contact-wrap reveal">
+    <div class="contact-left">
+      <h3>Harjot Singh</h3>
+      <p>React Native &amp; Ionic/Capacitor Mobile Developer | Full Stack | Based in Ludhiana, Punjab. Available for freelance projects worldwide.</p>
+      <div class="contact-items">
+        <a href="mailto:your@email.com" class="c-item">
+          <div class="c-icon"><i class="fas fa-envelope"></i></div>
+          <div><div class="c-label">Email</div><div class="c-val">your@email.com</div></div>
+        </a>
+        <div class="c-item">
+          <div class="c-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div><div class="c-label">Location</div><div class="c-val">Ludhiana, Punjab, India</div></div>
+        </div>
+        <div class="c-item">
+          <div class="c-icon"><i class="fas fa-clock"></i></div>
+          <div><div class="c-label">Timezone</div><div class="c-val">IST — UTC +5:30</div></div>
+        </div>
+        <div class="c-item">
+          <div class="c-icon" style="color:#4caf50;background:rgba(76,175,80,0.1);"><i class="fas fa-circle"></i></div>
+          <div><div class="c-label">Status</div><div class="c-val" style="color:#4caf50;">Available for Freelance</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form">
+      <div class="form-row">
+        <div class="f-group"><label class="f-label">Your Name</label><input class="f-input" type="text" placeholder="John Doe"/></div>
+        <div class="f-group"><label class="f-label">Email</label><input class="f-input" type="email" placeholder="john@example.com"/></div>
+      </div>
+      <div class="f-group"><label class="f-label">Subject</label><input class="f-input" type="text" placeholder="Project Enquiry"/></div>
+      <div class="f-group"><label class="f-label">Message</label><textarea class="f-textarea" placeholder="Tell me about your project..."></textarea></div>
+      <button class="f-btn">Send Message</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">H · S</div>
+  <div class="footer-copy">© 2026 Harjot Singh. React Native & Mobile Developer.</div>
+  <div class="footer-socials">
+    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+    <a href="#"><i class="fab fa-github"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Skill bars animate on scroll
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.bar-fill').forEach(bar => {
+        bar.style.width = bar.dataset.w;
+      });
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.skills-container').forEach(el => barObserver.observe(el));
+
+// Smooth active nav
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-menu a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id'); });
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + current ? '#f5a623' : '';
+  });
+});
+</script>
+</body>
+</html>
